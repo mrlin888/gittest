@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.itcast.dao.CustomerMapper" >
+	<select id="findAll"  resultType="cn.itcast.pojo.QueryVo">
+	    select c.*,u.nickname from s_cust c ,s_user u  where c.cust_link_user=u.uid
+	</select>
+	
+	<sql id="customer_where">
+			
+			<if test="cust_name != null and cust_name != ''">
+				and c.cust_name  like '%${cust_name}%'
+			</if>
+			<if test="cust_type != null and cust_type != ''">
+				and c.cust_type like '%${cust_type}%'
+			</if>
+			<!-- <if test="true">
+				and c.cust_link_user=u.uid
+			</if> -->
+	</sql>
+	<select id="findCustomerByVo" parameterType="cn.itcast.pojo.QueryVo" resultType="cn.itcast.pojo.QueryVo">
+		 select c.*,u.nickname from s_cust c ,s_user  u 
+		 where c.cust_link_user=u.uid
+		<include refid="customer_where"></include>
+		
+		<!--  limit #{start},#{size}  -->
+	</select>
+	
+	
+	<select id="findCustomerCountByVo" parameterType="cn.itcast.pojo.QueryVo" resultType="int">
+		select 
+		  count(*)
+		from s_cust c
+<!-- 		<include refid="customer_where"></include>
+ -->	
+ 	</select>
+	<delete id="deleteCustomerById" parameterType="int">
+			delete from s_cust where cid=#{id}
+	</delete>
+	
+	<insert id="addCustomer" parameterType="cn.itcast.pojo.QueryVo">
+		insert into s_cust(cust_name,cust_type,cust_phone,cust_address,cust_link_user) values(#{cust_name},#{cust_type},#{cust_phone},#{cust_address},#{uid})
+		
+		<!-- set标签的作用
+		a）可以自动添加set关键字
+		b）可以自动去掉最后一个修改内容的逗号
+		 -->
+		
+	</insert>
+</mapper>
