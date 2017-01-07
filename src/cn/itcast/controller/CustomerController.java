@@ -15,7 +15,10 @@ import cn.itcast.pojo.User;
 import cn.itcast.service.CustomerService;
 import cn.itcast.service.UserService;
 import cn.itcast.utils.Page;
-
+/**
+ * 
+ * ÷‹º“¡÷
+ * */
 @Controller
 //@RequestMapping("/customer")
 public class CustomerController {
